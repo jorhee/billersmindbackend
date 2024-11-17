@@ -44,7 +44,7 @@ app.use(cors(corsOptions));
 const corsOptions = {
   origin: [
     'http://localhost:3000', // Local development
-    'https://billersmind-frontend-337780895889.uc.r.appspot.com', // Cloud Run frontend URL
+    'https://billersmind-frontend-337780895889.us-central1.run.app', // Cloud Run frontend URL
     'https://backendbillersmind.uc.r.appspot.com', // App Engine frontend URL
   ],
   credentials: true, // Allow credentials (e.g., cookies or headers)
