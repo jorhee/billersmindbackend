@@ -30,22 +30,24 @@ app.get('/', (req, res) => {
 });
 */
 
+/*
 //will allow us to customize CORS options to meet our specific requirements
-/*const corsOptions = {
+const corsOptions = {
     origin: [`http:localhost:3000`], //allows request from this origin (client's URL)
     //method: ['GET','POST'] - You can add this property to limit the access to this method.
     credentials: true, //allow credentials (e.g. authorization headers)
     optionsSuccessStatus:200 //provides status code to use for successful OPTIONS requests.
 }
 app.use(cors(corsOptions));
-
 */
+
 
 const corsOptions = {
   origin: [
     'http://localhost:3000', // Local development
-    'https://billersmind-frontend-337780895889.us-central1.run.app', // Cloud Run frontend URL
-    'https://backendbillersmind.uc.r.appspot.com', // App Engine frontend URL
+    'https://billersmind.net', // production development
+    'https://react-frontend-337780895889.us-central1.run.app' // Cloud Run frontend URL
+
   ],
   credentials: true, // Allow credentials (e.g., cookies or headers)
   optionsSuccessStatus: 200, // Status code for successful OPTIONS request
