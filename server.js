@@ -9,6 +9,7 @@ const providerRoutes = require('./routes/provider');
 const payerRoutes = require('./routes/payer');
 const patientRoutes = require('./routes/patient');
 const batchedNoaRoutes = require('./routes/batchedNoa');
+const claimRoutes = require('./routes/claim');
 
 
 
@@ -46,6 +47,7 @@ const corsOptions = {
   origin: [
     'http://localhost:3000', // Local development
     'https://billersmind.net', // production development
+    'https://www.billersmind.net', // production development
     'https://react-frontend-337780895889.us-central1.run.app' // Cloud Run frontend URL
 
   ],
@@ -62,6 +64,7 @@ app.use('/providers', providerRoutes);
 app.use('/payers', payerRoutes);
 app.use('/patients', patientRoutes);
 app.use('/batchedNoa', batchedNoaRoutes);
+app.use('/claims', claimRoutes);
 
 
 // In your Express server

@@ -96,7 +96,7 @@ const batchedNoaSchema = new mongoose.Schema({
         required: false,
         validate: {
             validator: validateDate,
-            message: 'Invalid date format for BeneStartDate.'
+            message: 'Invalid date format for finalized Date.'
         }
     },
     noaStatus:{
@@ -109,7 +109,7 @@ const batchedNoaSchema = new mongoose.Schema({
         required: false,
         validate: {
             validator: validateDate,
-            message: 'Invalid date format for BeneStartDate.'
+            message: 'Invalid date format for DC Date.'
         }
     },
     dcReason: {
