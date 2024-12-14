@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/add', verify, verifyAdmin, isLoggedIn, hospiceCalculatorController.addcalculator);
 
-router.post('/search', verify, verifyAdmin, isLoggedIn, hospiceCalculatorController.searchRate);
+router.post('/search', hospiceCalculatorController.searchRate);
 
 
 
