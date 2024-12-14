@@ -2,7 +2,7 @@
 const express = require("express");
 
 
-const claimController = require("../controllers/claim");
+const hospiceClaimController = require("../controllers/hospiceClaim");
 
 const auth = require("../middleware/auth");
 const { authMiddleware, verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
@@ -10,12 +10,14 @@ const { authMiddleware, verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
 //[routing component]
 const router = express.Router();
 
+// Route to pending claims
+router.post('/:providerId/pending-claim', verify, isLoggedIn, hospiceClaimController.pendingClaim);
 
 // Route to generate a claim
-router.post('/:providerId/add-claim', verify, isLoggedIn, claimController.addClaim);
+router.post('/:providerId/add-claim', verify, isLoggedIn, hospiceClaimController.addClaim);
 
 //Get all claims per ProviderID
-router.get('/:providerId/all-claims', verify, isLoggedIn, claimController.getAllClaimsByProviderId);
+router.get('/:providerId/all-claims', verify, isLoggedIn, hospiceClaimController.getAllClaimsByProviderId);
 
 
 // Route to retrieve a claim by ID

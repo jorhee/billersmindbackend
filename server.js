@@ -9,7 +9,10 @@ const providerRoutes = require('./routes/provider');
 const payerRoutes = require('./routes/payer');
 const patientRoutes = require('./routes/patient');
 const batchedNoaRoutes = require('./routes/batchedNoa');
-const claimRoutes = require('./routes/claim');
+const hospiceClaimRoutes = require('./routes/hospiceClaim');
+const hospiceRateRoutes = require('./routes/hospiceRate');
+const wageIndexRoutes = require('./routes/wageIndex');
+const hospiceCalculatorRoutes = require('./routes/hospiceCalculator');
 
 
 
@@ -64,7 +67,10 @@ app.use('/providers', providerRoutes);
 app.use('/payers', payerRoutes);
 app.use('/patients', patientRoutes);
 app.use('/batchedNoa', batchedNoaRoutes);
-app.use('/claims', claimRoutes);
+app.use('/hospiceClaims', hospiceClaimRoutes);
+app.use('/hospiceRate', hospiceRateRoutes);
+app.use('/wageIndex', wageIndexRoutes);
+app.use('/hospiceCalculator', hospiceCalculatorRoutes);
 
 
 // In your Express server

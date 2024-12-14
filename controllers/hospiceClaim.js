@@ -3,7 +3,7 @@ const Patient = require("../models/Patient");
 const Payer = require("../models/Payer");
 const Provider = require("../models/Provider");
 const BatchedNoa = require("../models/BatchedNoa");
-const Claim = require("../models/Claim");
+const HospiceClaim = require("../models/HospiceClaim");
 
 
 const auth = require("../middleware/auth");
@@ -18,29 +18,45 @@ const { validateDate } = validation;
 
 
 module.exports.getAllClaimsByProviderId = async (req, res) => {
-
     const { providerId } = req.params; // Get provider ID from request parameters
 
     try {
-        const claims = await Claim.find({ providerId: providerId }); 
-        // Find notices by provider ID
+        // Validate if providerId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(providerId)) {
+            return res.status(400).json({ message: 'Invalid provider ID.' });
+        }
 
+        // Validate if the provider exists in the database
+        const provider = await Provider.findById(providerId);
+        if (!provider) {
+            return res.status(404).json({ message: 'Provider not found.' });
+        }
+
+        // Fetch claims for the given providerId
+        const claims = await Claim.find({ providerId: providerId });
+
+        // Handle case where no claims are found
         if (claims.length === 0) {
-            return res.status(404).send({
-                message: 'No Claims found for this provider.'
+            return res.status(200).json({
+                message: 'No Claims found for this provider.',
+                claims: [] // Return an empty array
             });
         }
 
-        res.status(200).send(claims); // Send the list of noe as response
+        // Send the claims if found
+        res.status(200).json(claims);
     } catch (error) {
-        res.status(500).send({
+        res.status(500).json({
             message: 'Error retrieving Claims',
             error: error.message
         });
     }
-
 };
 
+module.exports.pendingClaim = async (req, res) => {
+
+
+}
 
 module.exports.addClaim = async (req,res) => {
 
@@ -77,6 +93,10 @@ module.exports.addClaim = async (req,res) => {
         const { noaId } = req.body; // Get noaId from request body
         const { providerId } = req.params; // Get providerId from request params
 
+        // Validate if providerId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(providerId)) {
+            return res.status(400).json({ message: 'Invalid provider ID.' });
+        }
         // Step 1: Validate providerId from params
         const provider = await Provider.findById(providerId);
         if (!provider) {

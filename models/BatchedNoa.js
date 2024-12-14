@@ -45,22 +45,22 @@ const batchedNoaSchema = new mongoose.Schema({
     },
     benefitPeriod: [{
         benefitNum: {
-        type: Number,
-        required: true
-    },
-    BeneStartDate: {
-        type: String,
-        required: true,
-        validate: {
-            validator: validateDate,
-            message: 'Invalid date format for BeneStartDate.'
+            type: Number,
+            required: true
+            },
+        BeneStartDate: {
+            type: String,
+            required: true,
+            validate: {
+                validator: validateDate,
+                message: 'Invalid date format for BeneStartDate.'
+            }
+        },
+        BeneTermDate: {
+            type: String,
+            required: true,
         }
-    },
-    BeneTermDate: {
-        type: String,
-        required: true,
-    }
-    }],
+        }],
     primaryDiagnosis: {
         type: String,
         required: true

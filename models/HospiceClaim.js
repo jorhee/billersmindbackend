@@ -5,26 +5,59 @@ const { validateDate } = require('../utils/validation'); // Adjust the path as n
 
 
 
-const claimSchema = new mongoose.Schema({
-    providerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Provider', // Reference to Provider model
-        required: true
+const hospiceClaimSchema = new mongoose.Schema({
+    noa: {
+        noaId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'BatchedNoa', // Reference to Noa model
+            required: true
+        },
+        admitDate: {
+            type: String,
+            required: true,
+        }
     },
-    patientId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Patient', // Reference to Patient model
-        required: true
+    provider: {
+        providerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Provider', // Reference to Provider model
+            required: true
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+    },
+    patient: {
+        patientId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Patient', // Reference to Patient model
+            required: true
+        },
+        lastName: {
+            type: String,
+            required: [true, 'lastName is required'],
+        },
+        firstName: {
+            type: String,
+            required: [true, 'firstName is required'],
+        },
     },
     placeOfService: {
         type: String,
         enum: ['HOME', 'ALF', 'SNF', 'BNC'], // Enum for place of service
         required: false
     },
-    payerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Payer', // Reference to Payer model
-        required: true
+    payer: {
+        payerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Payer', // Reference to Payer model
+            required: true
+        },
+        name: {
+            type: String,
+            required: true,
+        },
     },
     memberId: {
         type: String,
@@ -32,13 +65,8 @@ const claimSchema = new mongoose.Schema({
     },
     typeOfService: {
         type: String,
-        enum: ['Hospice Service', 'Room and Board Claims', 'Home Health Claims', 'ALW Billing'], // Enum for type of service
-        required: true
-    },
-    noaId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'BatchedNoa', // Reference to Noa model
-        required: true
+        required: true,
+        default: 'Hospice Service'
     },
     fromDate: {
         type: String,
@@ -63,7 +91,6 @@ const claimSchema = new mongoose.Schema({
     typeOfBill: {
         type: String,
         required: true,
-        enum: ['811', '812', '813', '814', '329'], // Enum for type of admission: 81A OR 81C
     },
     sentDate: {
         type: String,
@@ -125,7 +152,7 @@ const claimSchema = new mongoose.Schema({
 });
 
 // Create the model
-module.exports = mongoose.model('Claim', claimSchema);
+module.exports = mongoose.model('HospiceClaim', hospiceClaimSchema);
 
 
 
