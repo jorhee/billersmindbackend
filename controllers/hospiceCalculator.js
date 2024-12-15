@@ -1,6 +1,7 @@
 const HospiceCalculator = require("../models/HospiceCalculator");
 const HospiceRate = require("../models/HospiceRate");
 const WageIndex = require("../models/WageIndex");
+const Zipcode = require("../models/Zipcode");
 
 
 const User = require('../models/User');
@@ -106,16 +107,27 @@ module.exports.addcalculator = async (req, res) => {
 
 module.exports.searchRate = async (req, res) => {
   try {
-    const { year, isHospiceDoSubmitQualityData, cbsa } = req.body;
+    const { year, isHospiceDoSubmitQualityData, zip } = req.body;
 
     // Ensure all three search criteria are present
-    if (!year || isHospiceDoSubmitQualityData === undefined || !cbsa) {
+    if (!year || isHospiceDoSubmitQualityData === undefined || !zip) {
       return res.status(400).json({
-        message: "All 3 criteria (year, isHospiceDoSubmitQualityData, and cbsa) must be provided."
+        message: "All 3 criteria (year, isHospiceDoSubmitQualityData, and zip) must be provided."
       });
     }
 
-    console.log('Filter:', { year, isHospiceDoSubmitQualityData, cbsa });
+    console.log('Filter:', { year, isHospiceDoSubmitQualityData, zip });
+
+    // Find the CBSA associated with the ZIP code
+    const zipcodeEntry = await Zipcode.findOne({ zip });
+
+    if (!zipcodeEntry || !zipcodeEntry.cbsa) {
+      return res.status(404).json({
+        message: `No CBSA found for the provided ZIP code: ${zip}`
+      });
+    }
+
+    const cbsa = zipcodeEntry.cbsa;
 
     // Query the database to find matching calculator entries
     const calculatorEntries = await HospiceCalculator.find({
@@ -131,6 +143,7 @@ module.exports.searchRate = async (req, res) => {
     res.status(200).json(calculatorEntries);
 
   } catch (error) {
+    console.error('Error searching rate:', error.message);
     res.status(500).json({
       message: "Internal server error",
       error: error.message

@@ -13,6 +13,7 @@ const hospiceClaimRoutes = require('./routes/hospiceClaim');
 const hospiceRateRoutes = require('./routes/hospiceRate');
 const wageIndexRoutes = require('./routes/wageIndex');
 const hospiceCalculatorRoutes = require('./routes/hospiceCalculator');
+const zipcodeRoutes = require('./routes/zipcode');
 
 
 
@@ -71,6 +72,7 @@ app.use('/hospiceClaims', hospiceClaimRoutes);
 app.use('/hospiceRate', hospiceRateRoutes);
 app.use('/wageIndex', wageIndexRoutes);
 app.use('/hospiceCalculator', hospiceCalculatorRoutes);
+app.use('/zipcode', zipcodeRoutes);
 
 
 // In your Express server
