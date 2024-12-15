@@ -118,6 +118,14 @@ module.exports.searchRate = async (req, res) => {
 
     console.log('Filter:', { year, isHospiceDoSubmitQualityData, zip });
 
+    // Check if the year exists in the database
+    const yearExists = await HospiceCalculator.exists({ year });
+    if (!yearExists) {
+      return res.status(404).json({
+        message: `Year ${year} not found in the HospiceCalculator database.`
+      });
+    }
+    
     // Find the CBSA associated with the ZIP code
     const zipcodeEntry = await Zipcode.findOne({ zip });
 
