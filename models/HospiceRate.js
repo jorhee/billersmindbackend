@@ -9,7 +9,6 @@ const HospiceRateSchema = new mongoose.Schema({
   isHospiceDoSubmitQualityData: {
   	type: Boolean,
   	required: true,
-  	default: false
   },	
   rhcHighWage: {
     type: Number,

@@ -17,7 +17,8 @@ module.exports.addHospiceRate = async (req, res) => {
 	      ircWage,
 	      ircNonWage,
 	      gipWage,
-	      gipNonWage
+	      gipNonWage,
+	      isHospiceDoSubmitQualityData
 	    } = req.body;
 
 	    const newHospiceRate = await HospiceRate.create({
@@ -31,7 +32,8 @@ module.exports.addHospiceRate = async (req, res) => {
 	      ircWage,
 	      ircNonWage,
 	      gipWage,
-	      gipNonWage
+	      gipNonWage,
+	      isHospiceDoSubmitQualityData
 	    });
 
 	    res.status(201).json(newHospiceRate);
