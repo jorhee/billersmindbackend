@@ -5,7 +5,8 @@ const ZipcodeSchema = new mongoose.Schema({
     type: String, // ZIP codes may contain leading zeros, so string is preferred
     required: true,
     unique: true, // Ensures no duplicate ZIP codes
-    trim: true
+    trim: true,
+    match: [/^\d{5}$/, 'ZIP code must be a 5-digit number'] // Ensures only 5-digit numbers
   },
   type: {
     type: String,

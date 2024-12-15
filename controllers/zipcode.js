@@ -37,3 +37,68 @@ module.exports.getAllZipcodes = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
+module.exports.addZip = async (req, res) => {
+
+try {
+    const {
+      zip,
+      type,
+      primary_city,
+      acceptable_cities,
+      state,
+      county,
+      newCountyName,
+      cbsa
+    } = req.body;
+
+    // Validate required fields
+    if (!zip || !type || !primary_city || !state || !county) {
+      return res.status(400).json({
+        message: "zip, type, primary_city, state, and county are required."
+      });
+    }
+
+    // Ensure ZIP code is a valid 5-digit number
+    if (!/^\d{5}$/.test(zip)) {
+      return res.status(400).json({
+        message: "ZIP code must be a 5-digit number."
+      });
+    }
+
+    // Check if the ZIP code already exists
+    const existingZipcode = await Zipcode.findOne({ zip });
+    if (existingZipcode) {
+      return res.status(409).json({
+        message: `ZIP code ${zip} already exists in the database.`
+      });
+    }
+
+    // Create a new ZIP code document
+    const newZipcode = new Zipcode({
+      zip,
+      type,
+      primary_city,
+      acceptable_cities: acceptable_cities || [], // Default to empty array if not provided
+      state,
+      county,
+      newCountyName,
+      cbsa
+    });
+
+    // Save the ZIP code to the database
+    const savedZipcode = await newZipcode.save();
+
+    res.status(201).json({
+      message: "ZIP code added successfully.",
+      zipcode: savedZipcode
+    });
+  } catch (error) {
+    console.error("Error adding ZIP code:", error.message);
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message
+    });
+  }
+};

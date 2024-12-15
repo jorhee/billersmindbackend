@@ -13,6 +13,8 @@ router.get('/get', zipcodeController.getZipcode);
 
 router.get('/all', zipcodeController.getAllZipcodes);
 
+router.post('/add-zip', verify, verifyAdmin, isLoggedIn, zipcodeController.addZip);
+
 
 
 
